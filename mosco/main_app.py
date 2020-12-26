@@ -218,15 +218,13 @@ def ttest_upload_data_ui():
     
     # Render file dropbox
     with st.beta_expander('Upload data', expanded=True): 
-        how_to_upload = st.selectbox('How to access raw data? ', ('Upload', 'URL'))
+        how_to_upload = st.selectbox('How to access raw data? ', ('Upload', 'URL', 'Sample data'))
         if how_to_upload == 'Upload': 
             uploaded_file = st.file_uploader("Choose a CSV file", type='.csv')
         elif how_to_upload == 'URL': 
-            uploaded_file = st.text_input('File URL: ', value='https://raw.githubusercontent.com/luxin-tian/mosco_ab_test/main/sample_data/cookie_cats.csv')
-            if st.button('Confirm'): 
-                pass 
-            else: 
-                st.stop()
+            uploaded_file = st.text_input('File URL: ')
+        elif how_to_upload == 'Sample data': 
+            uploaded_file = 'https://raw.githubusercontent.com/luxin-tian/mosco_ab_test/main/sample_data/cookie_cats.csv'
         if uploaded_file is not None: 
             with st.spinner('Loading data...'): 
                 df = pd.read_csv(uploaded_file)
