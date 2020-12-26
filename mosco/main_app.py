@@ -302,12 +302,12 @@ def ttest_upload_data_ui():
 
 def main():
     '''Add control flows to organize the UI sections. '''
-    st.sidebar.image('../docs/logo.png', width=250)
+    st.sidebar.image('./docs/logo.png', width=250)
     st.sidebar.write('') # Line break
     side_menu_selectbox = st.sidebar.selectbox(
         'Type', ('Home', '2-Sample Student\'s t-test'))
     if side_menu_selectbox == 'Home':
-        home(homepage_path='../docs/homepage.md')
+        home(homepage_path='./docs/homepage.md')
     if side_menu_selectbox == '2-Sample Student\'s t-test':
         sub_menu_selectbox = st.sidebar.selectbox(
             'Subtype', ('With raw data', 'With statistics', 'Power analysis'))
@@ -319,7 +319,7 @@ def main():
             if sub_sub_menu_select_box == 'Continuous variable': 
                 continuous_ttest_from_stats_ui()
             elif sub_sub_menu_select_box == 'Binary variable': 
-                bernoulli_ttest_ui(tech_note_path='../docs/two_sample_ttest.md')
+                bernoulli_ttest_ui(tech_note_path='./docs/two_sample_ttest.md')
         elif sub_menu_selectbox == 'Power analysis': 
             ttest_power_ui()
 
@@ -342,7 +342,7 @@ def pwd_auth():
 
 
 if __name__ == '__main__': 
-    st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='../docs/icon.png', layout='centered', initial_sidebar_state='auto')
-    st.write(os.getcwd())
-    os.chdir('./mosco/')
+    st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
+    # if os.getcwd() != '/app/mosco_ab_test/mosco': 
+    #     os.chdir('./mosco/')
     pwd_auth()
