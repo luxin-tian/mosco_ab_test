@@ -223,7 +223,11 @@ def ttest_upload_data_ui():
             uploaded_file = st.file_uploader("Choose a CSV file", type='.csv')
         elif how_to_upload == 'URL': 
             uploaded_file = st.text_input('File URL: ', value='https://raw.githubusercontent.com/luxin-tian/mosco_ab_test/main/sample_data/cookie_cats.csv')
-        if st.button('Confirm') and uploaded_file is not None: 
+            if st.button('Confirm'): 
+                pass 
+            else: 
+                st.stop()
+        if uploaded_file is not None: 
             with st.spinner('Loading data...'): 
                 df = pd.read_csv(uploaded_file)
     
