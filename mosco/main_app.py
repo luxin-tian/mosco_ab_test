@@ -343,6 +343,7 @@ def pwd_auth():
 
 if __name__ == '__main__': 
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
+    st.write(os.getcwd())
     # if os.getcwd() != '/app/mosco_ab_test/mosco': 
     #     os.chdir('./mosco/')
     pwd_auth()
