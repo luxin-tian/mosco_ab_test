@@ -1,5 +1,5 @@
 scipy 
-statsmodel 
+statsmodels
 numpy 
 pandas 
 plotly 
