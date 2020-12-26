@@ -327,9 +327,9 @@ def pwd_auth():
     st.info('MOSCO is currently under development. Please enter your tokens if you are a developer. ')
     st.header('Authentication')
     cmd = st.text_input('Press enter your command', value='>>> ')
-    if 'run mosco -user liyezi' in cmd: 
+    if 'run mosco -user' in cmd: 
         pwd = st.text_input('Please enter your password', type='password')
-        if pwd == 'cuhk2020': 
+        if pwd == 'mosco2020': 
             st.success('Success. Welcome back :)')
             main()
         else: 

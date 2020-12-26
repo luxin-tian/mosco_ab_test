@@ -1,4 +1,7 @@
 scipy 
+statsmodel 
 numpy 
 pandas 
 plotly 
+seaborn
+matplotlib
