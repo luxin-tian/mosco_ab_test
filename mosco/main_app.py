@@ -218,8 +218,12 @@ def ttest_upload_data_ui():
     
     # Render file dropbox
     with st.beta_expander('Upload data', expanded=True): 
-        uploaded_file = st.file_uploader("Choose a CSV file", type='.csv')
-        if uploaded_file is not None: 
+        how_to_upload = st.selectbox('How to access raw data? ', ('Upload', 'URL'))
+        if how_to_upload == 'Upload': 
+            uploaded_file = st.file_uploader("Choose a CSV file", type='.csv')
+        elif how_to_upload == 'URL': 
+            uploaded_file = st.text('File URL: ', value='https://raw.githubusercontent.com/luxin-tian/mosco_ab_test/main/sample_data/cookie_cats.csv')
+        if st.button('Confirm') and uploaded_file is not None: 
             with st.spinner('Loading data...'): 
                 df = pd.read_csv(uploaded_file)
     
@@ -343,7 +347,7 @@ def pwd_auth():
 
 if __name__ == '__main__': 
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
-    st.write(os.getcwd())
+    # st.write(os.getcwd())
     # if os.getcwd() != '/app/mosco_ab_test/mosco': 
     #     os.chdir('./mosco/')
     pwd_auth()
