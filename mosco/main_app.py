@@ -1,5 +1,6 @@
 """Renders the Mosco A/B Test Dashboard web app. Made with Streamlit. 
 """
+import os 
 
 import streamlit as st
 import pandas as pd
@@ -340,6 +341,7 @@ def pwd_auth():
             st.error('Invalid command')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
+    st.write(os.getcwd())
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='../docs/icon.png', layout='centered', initial_sidebar_state='auto')
     pwd_auth()
