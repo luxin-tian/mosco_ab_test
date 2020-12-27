@@ -318,7 +318,7 @@ def anova_ui():
     with st.beta_container(): 
         st.title('ANOVA')
         st.info('This section is under development. ')
-        st.markdown('<iframe src="https://en.wikipedia.org/wiki/Analysis_of_variance" title="Wikipedia - Analysis of variance"></iframe> width="800" height="1500"', unsafe_allow_html=True)
+        st.markdown('<iframe width="800" height="1500 src="https://en.wikipedia.org/wiki/Analysis_of_variance" title="Wikipedia - Analysis of variance"></iframe>"', unsafe_allow_html=True)
 
 
 def main():
