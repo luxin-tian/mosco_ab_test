@@ -238,13 +238,15 @@ def ttest_upload_data_ui():
     
     if uploaded_file is not None: 
         with st.beta_expander('Configurations', expanded=True): 
-            var_group_label = st.selectbox('Group label', df.columns)
+            df_columns_types = [ind + ' (' + val.name + ')' for ind, val in df.dtypes.iteritems()]
+            df_columns_dict = {(ind + ' (' + val.name + ')'): ind for ind, val in df.dtypes.iteritems()}
+            var_group_label = df_columns_dict[st.selectbox('Group label', df_columns_types)]
             col1, col2 = st.beta_columns(2) 
             with col1:
                 var_group_name_1 = st.selectbox('Group name A', df[var_group_label].unique())
             with col2:
                 var_group_name_2 = st.selectbox('Group name B', df[var_group_label].unique())
-            var_outcome = st.multiselect('Outcome variable: ', df.columns)
+            var_outcome = [df_columns_dict[var] for var in st.multiselect('Outcome variable: ', df_columns_types)]
             col1, col2 = st.beta_columns([1, 1])
             with col1: 
                 conf_level = st.select_slider('Confidence level: ', ('0.90', '0.95', '0.99'))
@@ -254,7 +256,8 @@ def ttest_upload_data_ui():
             # if if_factorize: 
             #     var_hot_encoding = st.multiselect('Choose variables to be factorized: ', var_outcome)
             if_data_description = st.checkbox('Show descriptive statistics', value=False)
-            if_apply = st.button('Apply configurations')
+            if_apply = st.button('Confirm')
+    
     if uploaded_file is not None: 
         if if_apply: 
             if var_group_name_1 == var_group_name_2: 
@@ -335,10 +338,15 @@ def main():
 def pwd_auth(): 
     st.info('MOSCO is currently under development. Please enter your tokens if you are a developer. ')
     st.header('Authentication')
-    cmd = st.text_input('Press enter your command', value='>>> ')
+    cmd = st.text_input('Press enter your command', value='>>> run mosco -user <username>')
     if 'run mosco -user' in cmd: 
+        username = cmd.split('run mosco -user')[-1].strip()
+        if username == '<username>': 
+            st.error('Invalid username')
+            st.stop()
+        st.markdown(f'You will login as `{username}`')
         pwd = st.text_input('Please enter your password', type='password')
-        if pwd == 'mosco2020': 
+        if pwd == username + '_mosco2020': 
             st.success('Success. Welcome back :)')
             main()
         else: 

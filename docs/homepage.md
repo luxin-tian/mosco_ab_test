@@ -24,4 +24,3 @@ Mosco provides a Python API for all the implemented hypothesis testings. Read mo
 ## Mosco Development Team
 
 - [@Yezi_Li](mailto:yezili@link.cuhk.edu.cn), [the Chinese University Of Hong Kong, Shenzhen](https://www.cuhk.edu.cn). 
-- [@Luxin Tian](mailto:luxintian@uchicago.edu), [the University of Chicago](https://www.uchicago.edu)
