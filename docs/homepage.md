@@ -19,8 +19,9 @@ Mosco is an A/B test dashboards that provides simple tools for causal inference 
 
 ## Python API 
 
-Mosco provides a Python API for all the implemented hypothesis testings. Read more on the [documentation](#). 
+Mosco provides a Python API for all the implemented hypothesis testings. 
 
 ## Mosco Development Team
 
-- [@Yezi_Li](mailto:yezili@link.cuhk.edu.cn), [the Chinese University Of Hong Kong, Shenzhen](https://www.cuhk.edu.cn). 
+- [Li, Yezi](mailto:yezili@link.cuhk.edu.cn), _The Chinese University Of Hong Kong, Shenzhen_. 
+  - Part of this project has been submited as the final project of ECO

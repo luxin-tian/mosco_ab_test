@@ -311,6 +311,16 @@ def ttest_upload_data_ui():
     return 
 
 
+def anova_ui(): 
+    '''The Two-sample Student's t-test - Continuous variables (upload data) section. '''
+    
+    # Render the header. 
+    with st.beta_container(): 
+        st.title('ANOVA')
+        st.info('This section is under development. ')
+        st.markdown('<iframe src="https://en.wikipedia.org/wiki/Analysis_of_variance" title="Wikipedia - Analysis of variance"></iframe>', unsafe_allow_html=True)
+
+
 def main():
     '''Add control flows to organize the UI sections. '''
     st.sidebar.image('./docs/logo.png', width=250)
