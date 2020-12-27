@@ -318,9 +318,9 @@ def anova_ui():
     with st.beta_container(): 
         st.title('ANOVA')
         st.info('This section is under development. ')
-        st.markdown('<iframe width="800" height="1500 src="https://en.wikipedia.org/wiki/Analysis_of_variance" title="Wikipedia - Analysis of variance"></iframe>"', unsafe_allow_html=True)
-
-
+        st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/EFdlFoHI_0I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
+        st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/j9ZPMlVHJVs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
+        st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Xg8_iSkJpAE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
 def main():
     '''Add control flows to organize the UI sections. '''
     st.sidebar.image('./docs/logo.png', width=250)
