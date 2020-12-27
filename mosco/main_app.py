@@ -326,10 +326,10 @@ def main():
     st.sidebar.image('./docs/logo.png', width=250)
     st.sidebar.write('') # Line break
     side_menu_selectbox = st.sidebar.selectbox(
-        'Type', ('Home', '2-Sample Student\'s t-test'))
+        'Type', ('Home', '2-Sample Student\'s t-test', 'ANOVA'))
     if side_menu_selectbox == 'Home':
         home(homepage_path='./docs/homepage.md')
-    if side_menu_selectbox == '2-Sample Student\'s t-test':
+    elif side_menu_selectbox == '2-Sample Student\'s t-test':
         sub_menu_selectbox = st.sidebar.selectbox(
             'Subtype', ('With raw data', 'With statistics', 'Power analysis'))
         if sub_menu_selectbox == 'With raw data': 
@@ -343,6 +343,8 @@ def main():
                 bernoulli_ttest_ui(tech_note_path='./docs/two_sample_ttest.md')
         elif sub_menu_selectbox == 'Power analysis': 
             ttest_power_ui()
+    elif side_menu_selectbox == 'ANOVA':
+        anova_ui()
 
 
 def pwd_auth(): 
