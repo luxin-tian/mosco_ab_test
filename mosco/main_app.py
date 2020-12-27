@@ -342,7 +342,7 @@ def pwd_auth():
     if 'run mosco -user' in cmd: 
         username = cmd.split('run mosco -user')[-1].strip()
         if username == '<username>': 
-            st.error('Invalid username')
+            st.info('Please replace <username> with your name. ')
             st.stop()
         st.markdown(f'You will login as `{username}`')
         pwd = st.text_input('Please enter your password', type='password')
