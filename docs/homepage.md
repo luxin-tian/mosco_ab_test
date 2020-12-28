@@ -24,4 +24,5 @@ Mosco provides a Python API for all the implemented hypothesis testings.
 ## Mosco Development Team
 
 - [Li, Yezi](mailto:yezili@link.cuhk.edu.cn), _The Chinese University Of Hong Kong, Shenzhen_. 
-  - Part of this project has been submited as the final project of ECO
+  - An independent part of this project has been submited as the final project of `ECO6104 Advanced Programming for Economics`. 
+- [Tian, Luxin](https://github.com/luxin-tian), _The University Of Chicago_. 
