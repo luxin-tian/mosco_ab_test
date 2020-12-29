@@ -208,6 +208,20 @@ def continuous_ttest_from_stats_ui():
     #         st.markdown(tech_note.read())
 
 
+@st.cache(show_spinner=False)
+def _load_data(filepath): 
+    return pd.read_csv(filepath)
+
+
+def _process_data(df, col, if_dropna, if_remove_outliers, outlier_lower_qtl, outlier_upper_qtl): 
+    if if_dropna: 
+        df = df.dropna(subset=[col])
+    if if_remove_outliers: 
+        q_low = df[col].quantile(outlier_lower_qtl)
+        q_hi  = df[col].quantile(outlier_upper_qtl)
+        df = df[(df[col] < q_hi) & (df[col] > q_low)]
+    return df
+
 def ttest_upload_data_ui(): 
     '''The Two-sample Student's t-test - Continuous variables (upload data) section. '''
     
@@ -218,23 +232,24 @@ def ttest_upload_data_ui():
     
     # Render file dropbox
     with st.beta_expander('Upload data', expanded=True): 
-        how_to_upload = st.selectbox('How to access raw data? ', ('Upload', 'URL', 'Sample data'))
-        if how_to_upload == 'Upload': 
+        how_to_load = st.selectbox('How to access raw data? ', ('Upload', 'URL', 'Sample data'))
+        if how_to_load == 'Upload': 
             uploaded_file = st.file_uploader("Choose a CSV file", type='.csv')
-        elif how_to_upload == 'URL': 
+        elif how_to_load == 'URL': 
             uploaded_file = st.text_input('File URL: ')
             if uploaded_file == '': 
                 uploaded_file = None
-        elif how_to_upload == 'Sample data': 
+        elif how_to_load == 'Sample data': 
             uploaded_file = 'https://raw.githubusercontent.com/luxin-tian/mosco_ab_test/main/sample_data/cookie_cats.csv'
         if uploaded_file is not None: 
             with st.spinner('Loading data...'): 
-                df = pd.read_csv(uploaded_file)
+                df = _load_data(uploaded_file)
     
     if uploaded_file is not None: 
         with st.beta_expander('Data preview', expanded=True): 
             with st.spinner('Loading data...'): 
-                st.dataframe(df.head())
+                st.dataframe(df)
+                st.write('`{}` rows, `{}` columns'.format(df.shape[0],df.shape[1]))
     
     if uploaded_file is not None: 
         with st.beta_expander('Configurations', expanded=True): 
@@ -252,9 +267,15 @@ def ttest_upload_data_ui():
                 conf_level = st.select_slider('Confidence level: ', ('0.90', '0.95', '0.99'))
             with col2: 
                 hypo_type = st.radio('Hypothesis type: ', ('One-sided', 'Two-sided'))
-            # if_factorize = st.checkbox('Factorize variables')
-            # if if_factorize: 
-            #     var_hot_encoding = st.multiselect('Choose variables to be factorized: ', var_outcome)
+            if_dropna = st.checkbox('Drop null values', value=True)
+            if_remove_outliers = st.checkbox('Remove outliers', value=False)
+            if if_remove_outliers: 
+                outlier_lower_qtl, outlier_upper_qtl = st.slider('Quantiles (observations falling into the tails will be removed): ', min_value=0.0, max_value=1.0, step=0.01, value=(0.0, 0.95))
+                # col1, col2 = st.beta_columns(2) 
+                # with col1: 
+                #     outlier_lower_qtl = st.slider('Lower quantile: ', min_value=0.0, max_value=0.25, step=0.01, value=0.0)
+                # with col2: 
+                #     outlier_upper_qtl = st.slider('Upper quantile: ', min_value=0.75, max_value=1.00, step=0.01, value=0.99)
             if_data_description = st.checkbox('Show descriptive statistics', value=False)
             if_apply = st.button('Confirm')
     
@@ -263,7 +284,8 @@ def ttest_upload_data_ui():
             if var_group_name_1 == var_group_name_2: 
                 st.error('The names of Group A and Group B cannot be identical. ')
                 st.stop()
-            
+            for col in var_outcome: 
+                df = _process_data(df=df, col=col, if_dropna=if_dropna, if_remove_outliers=if_remove_outliers, outlier_lower_qtl=outlier_lower_qtl, outlier_upper_qtl=outlier_upper_qtl)
             # Render hypothesis testing
             with st.beta_expander('Hypothesis testing', expanded=True): 
                 with st.spinner('Calculating...'): 
@@ -371,7 +393,4 @@ def pwd_auth():
 
 if __name__ == '__main__': 
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
-    # st.write(os.getcwd())
-    # if os.getcwd() != '/app/mosco_ab_test/mosco': 
-    #     os.chdir('./mosco/')
-    pwd_auth()
+    main()
