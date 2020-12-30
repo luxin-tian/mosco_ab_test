@@ -386,11 +386,11 @@ def pwd_auth():
         st.stop()
     st.markdown(f'You will login as `{username}`. ')
     pwd = st.text_input('Trial token', type='password')
-    if pwd == 'MOSCO-2020': 
+    if pwd == 'MOSCO-2020' or pwd == 'mosco2020admin': 
         st.success('Success. Welcome back :)')
         visitor_cnt[username] = visitor_cnt.get(username, [])
         visitor_cnt[username].append(str(datetime.now()))
-        if username in ['yezi-li', 'luxin-tian']: 
+        if username in ['yezi-li', 'luxin-tian'] and pwd == 'mosco2020admin': 
             st.text('Visitor analytics')
             st.json(visitor_cnt)
         main()
