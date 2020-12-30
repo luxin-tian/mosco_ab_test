@@ -371,26 +371,32 @@ def main():
         anova_ui()
 
 
+@st.cache(allow_output_mutation=True)
+def visitor_analytics():
+    return {}
+
+
 def pwd_auth(): 
     st.info('MOSCO is currently under development. Please enter your tokens if you are a developer. ')
     st.header('Authentication')
-    cmd = st.text_input('Press enter your command', value='>>> run mosco -user <username>')
-    if 'run mosco -user' in cmd: 
-        username = cmd.split('run mosco -user')[-1].strip()
-        if username == '<username>': 
-            st.info('Please replace <username> with your name. ')
-            st.stop()
-        st.markdown(f'You will login as `{username}`')
-        pwd = st.text_input('Please enter your password', type='password')
-        if pwd == username + '_mosco2020': 
-            st.success('Success. Welcome back :)')
-            main()
-        else: 
-            if pwd != '': 
-                st.error('Invalid password')
+    visitor_cnt = visitor_analytics()
+    username = st.text_input('Username', value='')
+    if username == '': 
+        st.info('Please input your username. ')
+        st.stop()
+    st.markdown(f'You will login as `{username}`')
+    pwd = st.text_input('Password', type='password')
+    if pwd == username + '_mosco2020' or 'mosco2020': 
+        st.success('Success. Welcome back :)')
+        visitor_cnt[username] = visitor_cnt.get(username, 0) + 1
+        if username in ['liyezi', 'luxintian', 'admin']: 
+            st.dataframe(pd.DataFrame(dict(sorted(visitor_cnt.items(), key=lambda item: item[1], reverse=True))))
+        main()
     else: 
-        if cmd != '>>> ': 
-            st.error('Invalid command')
+        if pwd != '': 
+            st.error('Invalid password')
+        else: 
+            st.error('Password cannot be empty')
 
 
 if __name__ == '__main__': 
