@@ -1,7 +1,7 @@
 """Renders the Mosco A/B Test Dashboard web app. Made with Streamlit. 
 """
 import os 
-
+from datetime import datetime
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -371,7 +371,7 @@ def main():
         anova_ui()
 
 
-@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True, persist=True)
 def visitor_analytics():
     return {}
 
@@ -384,19 +384,21 @@ def pwd_auth():
     if username == '': 
         st.info('Please input your username. ')
         st.stop()
-    st.markdown(f'You will login as `{username}`')
+    st.markdown(f'You will login as `{username}`. ')
     pwd = st.text_input('Password', type='password')
-    if pwd == username + '_mosco2020' or 'mosco2020': 
+    if pwd == username + '_mosco2020' or pwd == 'mosco2020': 
         st.success('Success. Welcome back :)')
-        visitor_cnt[username] = visitor_cnt.get(username, 0) + 1
-        if username in ['liyezi', 'luxintian', 'admin']: 
-            st.dataframe(pd.DataFrame(dict(sorted(visitor_cnt.items(), key=lambda item: item[1], reverse=True))))
+        visitor_cnt[username] = visitor_cnt.get(username, [])
+        visitor_cnt[username].append(str(datetime.now()))
+        if username in ['yezi-li', 'luxin-tian']: 
+            st.text('Visitor analytics')
+            st.json(visitor_cnt)
         main()
     else: 
         if pwd != '': 
             st.error('Invalid password')
         else: 
-            st.error('Password cannot be empty')
+            st.stop()
 
 
 if __name__ == '__main__': 
