@@ -385,8 +385,8 @@ def pwd_auth():
         st.info('Please input your username. ')
         st.stop()
     st.markdown(f'You will login as `{username}`. ')
-    pwd = st.text_input('Password', type='password')
-    if pwd == username + '_mosco2020' or pwd == 'mosco2020': 
+    pwd = st.text_input('Trial token', type='password')
+    if pwd == 'MOSCO-2020': 
         st.success('Success. Welcome back :)')
         visitor_cnt[username] = visitor_cnt.get(username, [])
         visitor_cnt[username].append(str(datetime.now()))
@@ -396,7 +396,7 @@ def pwd_auth():
         main()
     else: 
         if pwd != '': 
-            st.error('Invalid password')
+            st.error('Invalid trial token. Please contact the development team to request for a trial token. ')
         else: 
             st.stop()
 
