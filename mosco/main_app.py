@@ -276,6 +276,8 @@ def ttest_upload_data_ui():
                 #     outlier_lower_qtl = st.slider('Lower quantile: ', min_value=0.0, max_value=0.25, step=0.01, value=0.0)
                 # with col2: 
                 #     outlier_upper_qtl = st.slider('Upper quantile: ', min_value=0.75, max_value=1.00, step=0.01, value=0.99)
+            else: 
+                outlier_lower_qtl, outlier_upper_qtl = None, None
             if_data_description = st.checkbox('Show descriptive statistics', value=False)
             if_apply = st.button('Confirm')
     
