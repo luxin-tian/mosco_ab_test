@@ -342,18 +342,30 @@ def anova_ui():
     with st.beta_container(): 
         st.title('ANOVA')
         st.info('This section is under development. ')
+        st.markdown('References: ')
         st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/EFdlFoHI_0I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
         st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/j9ZPMlVHJVs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
         st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Xg8_iSkJpAE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
+
+
+def chi_squared_ui(): 
+    '''The Two-sample Student's t-test - Continuous variables (upload data) section. '''
+    with st.beta_container(): 
+        st.title('Chi-Squared Test')
+        st.info('This section is under development. ')
+        st.markdown('References')
+        st.markdown('- [A/B Testing with Chi-Squared Test to Maximize Conversions and CTRs](https://towardsdatascience.com/a-b-testing-with-chi-squared-test-to-maximize-conversions-and-ctrs-6599271a2c31)')
+
+
 def main():
     '''Add control flows to organize the UI sections. '''
     st.sidebar.image('./docs/logo.png', width=250)
     st.sidebar.write('') # Line break
     side_menu_selectbox = st.sidebar.selectbox(
-        'Type', ('Home', '2-Sample Student\'s t-test', 'ANOVA'))
+        'Type', ('Home', '2-Sample Student\'s T-Test', 'ANOVA', 'Chi-Squared Test'))
     if side_menu_selectbox == 'Home':
         home(homepage_path='./docs/homepage.md')
-    elif side_menu_selectbox == '2-Sample Student\'s t-test':
+    elif side_menu_selectbox == '2-Sample Student\'s T-Test':
         sub_menu_selectbox = st.sidebar.selectbox(
             'Subtype', ('With raw data', 'With statistics', 'Power analysis'))
         if sub_menu_selectbox == 'With raw data': 
@@ -369,6 +381,8 @@ def main():
             ttest_power_ui()
     elif side_menu_selectbox == 'ANOVA':
         anova_ui()
+    elif side_menu_selectbox == 'Chi-Squared Test': 
+        chi_squared_ui()
 
 
 @st.cache(allow_output_mutation=True, persist=True)
