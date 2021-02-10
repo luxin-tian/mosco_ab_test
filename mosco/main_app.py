@@ -15,7 +15,7 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 # Import the hypothesis_testing.py module
 from hypothesis_testing import *
-
+import streamlit_analytics
 
 def home(homepage_path):
     '''The home page. '''
@@ -416,7 +416,9 @@ def pwd_auth():
 
 
 if __name__ == '__main__': 
+    streamlit_analytics.start_tracking()
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
     # pwd_auth()
     main()
+    streamlit_analytics.stop_tracking()
 
