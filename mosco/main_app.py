@@ -111,30 +111,38 @@ def bernoulli_ttest_ui(tech_note_path):
             visitors_1 = st.number_input(
                 'Visitors A: ', min_value=10, value=80000)
             conversions_1 = st.number_input(
-                'Conversions A: ', min_value=0, max_value=visitors_1, value=1600)
+                'Conversions A: ', min_value=0, value=1600)
             conf_level = st.select_slider('Confidence level: ', ('0.90', '0.95', '0.99'))
         with col2: 
             st.subheader('Group B')
             visitors_2 = st.number_input(
                 'Visitors B: ', min_value=10, value=80000)
             conversions_2 = st.number_input(
-                'Conversions B: ', min_value=0, max_value=visitors_2, value=1696)
+                'Conversions B: ', min_value=0, value=1696)
             hypo_type = st.radio('Hypothesis type: ', ('One-sided', 'Two-sided'))
     
-    # Calculate statistics
-    mu_1, mu_2, sigma_1, sigma_2 = bernoulli_stats(
-        visitors_1, visitors_2, conversions_1, conversions_2)
-    tstat, p_value, tstat_denom, pooled_sd, effect_size = scipy_ttest_ind_from_stats(
-        mu_1, mu_2, sigma_1, sigma_2, visitors_1, visitors_2)
-    observed_power = sm_tt_ind_solve_power(effect_size=effect_size, n1=visitors_1, n2=visitors_2, alpha=1-float(conf_level), power=None, hypo_type=hypo_type, if_plot=False)
+    # Assert visitors>=conversions
+    if_apply = st.button('Confirm')
+    if if_apply or ((visitors_1 == 80000) * (visitors_2 == 80000) * (conversions_1 == 1600) * (conversions_2 == 1696)): 
+        try: 
+            assert visitors_1 >= conversions_1 
+        except: 
+            raise ValueError('Visitors must be more the the converted. ')
 
-    # Render the results
-    ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power)
+        # Calculate statistics
+        mu_1, mu_2, sigma_1, sigma_2 = bernoulli_stats(
+            visitors_1, visitors_2, conversions_1, conversions_2)
+        tstat, p_value, tstat_denom, pooled_sd, effect_size = scipy_ttest_ind_from_stats(
+            mu_1, mu_2, sigma_1, sigma_2, visitors_1, visitors_2)
+        observed_power = sm_tt_ind_solve_power(effect_size=effect_size, n1=visitors_1, n2=visitors_2, alpha=1-float(conf_level), power=None, hypo_type=hypo_type, if_plot=False)
 
-    # Render technical notes
-    with st.beta_expander(label='Technical notes'):
-        with open(tech_note_path, 'r') as tech_note:
-            st.markdown(tech_note.read())
+        # Render the results
+        ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power)
+
+        # Render technical notes
+        with st.beta_expander(label='Technical notes'):
+            with open(tech_note_path, 'r') as tech_note:
+                st.markdown(tech_note.read())
 
 
 def ttest_power_ui():
@@ -192,8 +200,8 @@ def continuous_ttest_from_stats_ui():
             visitors_2 = st.number_input('Sample size B: ', value=80000)
             mu_2 = st.number_input('Sample mean B: ', value=68.7)
             sigma_2 = st.number_input('Sample standard deviation B: ', min_value=0.0, value=38.1)
-            hypo_type = st.radio('Hypothesis type: ', ('One-sided', 'Two-sided'))
-    
+            hypo_type = st.radio('Hypothesis type: ', ('One-sided', 'Two-sided'))     
+
     # Calculate statistics
     tstat, p_value, tstat_denom, pooled_sd, effect_size = scipy_ttest_ind_from_stats(
         mu_1, mu_2, sigma_1, sigma_2, visitors_1, visitors_2)
