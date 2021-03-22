@@ -1,0 +1,3 @@
+Mosco is an open-sourced server-side application that is hosted on Streamlit Share. We don't store any data you upload or input onto our application, except for that we may record your clicking actions for the purpose of web analytics. However, your data may be exposed to Streamlit. Please refer to [Streamlit's website](https://streamlit.io/privacy-policy) for their Pivacy Policy. Mosco is not responsible for any decision you would make based on the statistical results or the results per se. 
+
+Mosco是一个依托Streamlit框架开发和托管的开源网页应用。我们不会储存您上传或输入的任何数据，但我们可能会记录您在页面上的点击行为用于访客分析。然而，您的信息有可能被Streamlit看到，关于Streamlit隐私权政策，请您访问其[官方网页](https://streamlit.io/privacy-policy)。Mosco无法对任何基于本应用统计分析结果的决策或结果本身负责。
