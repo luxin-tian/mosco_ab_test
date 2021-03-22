@@ -21,6 +21,7 @@ def home(homepage_path):
     '''The home page. '''
     with open(homepage_path, 'r', encoding='utf-8') as homepage: 
         st.markdown(homepage.read(), unsafe_allow_html=True)
+        
 
 def ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power): 
     # Plot normal distribution graph
