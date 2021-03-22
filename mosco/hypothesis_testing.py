@@ -1,6 +1,8 @@
 import numpy as np
+import pandas as pd
 import scipy.stats
 import statsmodels.stats.power
+from statsmodels.graphics import mosaicplot
 
 
 def bernoulli_stats(visitors_1: int, visitors_2: int, conversions_1: int, conversions_2: int):
@@ -102,6 +104,8 @@ def sm_tt_ind_solve_power(effect_size=None, n1=None, n2=None, alpha=None, power=
     hypo_type : str, 'two-sided' (default) or 'one-sided'
         The type of the alternative hypothesis, indicating whether the power is calculated for a
         two-sided (default) or one sided test.
+    if_plot : bool
+        If True, then plot the power analysis graph. 
 
     Returns
     -------
@@ -138,3 +142,49 @@ def sm_tt_ind_solve_power(effect_size=None, n1=None, n2=None, alpha=None, power=
         return value, fig
     else: 
         return value
+
+
+def scipy_chi2_from_stats(visitors_1: int, visitors_2: int, conversions_1: int, conversions_2: int, if_plot: bool = True): 
+    """A helper function that wraps scipy.stats.chi2_contingency [1] to perform independent two-sample t-test. 
+
+    Parameters
+    ----------
+    visitors_1 : int
+        The number of total visitors of sample group 1. 
+    visitors_2 : int
+        The number of total visitors of sample group 1. 
+    conversions_1 : int
+        The number of conversions of sample group 1. 
+    conversions_2 : int
+        The number of conversions of sample group 2. 
+    if_plot : bool 
+        If True, then plot the mosaic graph of the observed contingency table. 
+
+    Returns
+    -------
+    chi2 : float
+        The test statistic.
+    p_value : float
+        The p-value of the test
+    expected : ndarray, same shape as `observed`
+        The expected frequencies, based on the marginal sums of the table.
+    observed : ndarray 
+        The observed contingency table. 
+
+    References
+    ----------
+    .. [1] https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chi2_contingency.html
+
+    """
+    observed = np.array([[visitors_1 - conversions_1, conversions_1], [visitors_2 - conversions_2, conversions_2]])
+    chi2, p_value, dof, expected = scipy.stats.chi2_contingency(observed)
+    if if_plot: 
+        fig, _ = mosaicplot.mosaic(
+            pd.Series(observed.ravel(), index=pd.MultiIndex.from_tuples([
+                ('Group A', 'Non-converted'), ('Group A','Converted'), 
+                ('Group B', 'Non-converted'), ('Group B','Converted')
+            ]))
+        )
+        return chi2, p_value, expected, observed, fig
+    else: 
+        return chi2, p_value, expected, observed

@@ -6,9 +6,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import scipy.stats
-import plotly.express as px
+# import plotly.express as px
 import plotly.graph_objects as go
-import plotly.figure_factory as ff
+# import plotly.figure_factory as ff
 import plotly.tools as tls
 from plotly.subplots import make_subplots
 import seaborn as sns
@@ -17,11 +17,31 @@ from matplotlib import pyplot as plt
 from hypothesis_testing import *
 import streamlit_analytics
 
-def home(homepage_path):
+def home(homepage_path, privacy_path, contact_path):
     '''The home page. '''
+    st.error('''We STAND AGAINST any racial/sexual discrimination based on data-driven decision making. [Read more about the humanity side](https://news.cornell.edu/stories/2019/02/social-scientists-take-data-driven-discrimination)''')
     with open(homepage_path, 'r', encoding='utf-8') as homepage: 
-        st.markdown(homepage.read(), unsafe_allow_html=True)
-        
+        homepage = homepage.read().split('---Insert video---')
+        st.markdown(homepage[0], unsafe_allow_html=True)
+        col1, col2 = st.beta_columns([1, 1])
+        with col2: 
+            st.video('https://www.youtube.com/watch?v=zFMgpxG-chM')
+        with col1: 
+            st.image('https://images.ctfassets.net/zw48pl1isxmc/4QYN7VubAAgEAGs0EuWguw/165749ef2fa01c1c004b6a167fd27835/ab-testing.png', use_column_width='auto')
+            st.text('Image source: Optimizely')
+        st.markdown(homepage[1], unsafe_allow_html=True)
+    contact_us_ui(contact_path, if_home=True)
+    with st.beta_expander(label='Privacy Notice'): 
+        with open(privacy_path, 'r', encoding='utf-8') as privacy: 
+            st.markdown(privacy.read())
+
+
+def contact_us_ui(contact_path, if_home=False): 
+    if not if_home: 
+        st.write('# New Features 💡')
+    with open(contact_path, 'r', encoding='utf-8') as contact: 
+        st.write(contact.read())
+
 
 def ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power): 
     # Plot normal distribution graph
@@ -103,6 +123,7 @@ def bernoulli_ttest_ui(tech_note_path):
     with st.beta_container():
         st.title('Two-sample Student\'s t-test')
         st.header('Bernoulli variables')
+        st.info('If the outcome variable is binary, for example, if you are testing for Click-through Rates (CTR) or customer retention rates, we suggest using a Chi-squared test. ')
 
     # Render input widgets
     with st.beta_container():
@@ -140,10 +161,10 @@ def bernoulli_ttest_ui(tech_note_path):
         # Render the results
         ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power)
 
-        # Render technical notes
-        with st.beta_expander(label='Technical notes'):
-            with open(tech_note_path, 'r') as tech_note:
-                st.markdown(tech_note.read())
+    # Render technical notes
+    with st.beta_expander(label='Technical notes'):
+        with open(tech_note_path, 'r') as tech_note:
+            st.markdown(tech_note.read())
 
 
 def ttest_power_ui():
@@ -344,25 +365,82 @@ def ttest_upload_data_ui():
     return 
 
 
-def anova_ui(): 
-    '''The Two-sample Student's t-test - Continuous variables (upload data) section. '''
+def chi_squared_ui(): 
+    '''The Two-sample Chi-squred test. '''
     
     # Render the header. 
     with st.beta_container(): 
-        st.title('ANOVA')
-        st.info('This section is under development. ')
-        st.markdown('References: ')
-        st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/EFdlFoHI_0I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
-        st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/j9ZPMlVHJVs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
-        st.markdown('<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/Xg8_iSkJpAE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', unsafe_allow_html=True)
-
-
-def chi_squared_ui(): 
-    '''The Two-sample Student's t-test - Continuous variables (upload data) section. '''
-    with st.beta_container(): 
         st.title('Chi-Squared Test')
-        st.info('This section is under development. ')
-        st.markdown('References')
+        st.info('This section is under development and is pre-released for test. ')
+
+    # Render input widgets
+    with st.beta_container():
+        col1, col2 = st.beta_columns([1, 1])
+        with col1:  
+            st.subheader('Group A')
+            visitors_1 = st.number_input(
+                'Visitors A: ', min_value=10, value=80000)
+            conversions_1 = st.number_input(
+                'Conversions A: ', min_value=0, value=1600)
+            conf_level = st.select_slider('Confidence level: ', ('0.90', '0.95', '0.99'))
+        with col2: 
+            st.subheader('Group B')
+            visitors_2 = st.number_input(
+                'Visitors B: ', min_value=10, value=80000)
+            conversions_2 = st.number_input(
+                'Conversions B: ', min_value=0, value=1696)
+            hypo_type = st.radio('Hypothesis type: ', ('One-sided', 'Two-sided'))
+    
+    # Assert visitors>=conversions
+    if_apply = st.button('Confirm')
+    if if_apply or ((visitors_1 == 80000) * (visitors_2 == 80000) * (conversions_1 == 1600) * (conversions_2 == 1696)): 
+        try: 
+            assert visitors_1 >= conversions_1 
+        except: 
+            raise ValueError('Visitors must be more the the converted. ')
+
+        # Calculate statistics
+        chi2, p_value, expected, observed, fig = scipy_chi2_from_stats(visitors_1, visitors_2, conversions_1, conversions_2)
+
+        # Render the results 
+        with st.beta_container(): 
+            if hypo_type == 'Two-sided':
+                p_threshold = (1 - float(conf_level)) / 2
+            else:
+                p_threshold = 1 - float(conf_level)
+
+            # Render message box
+            if p_value < p_threshold:
+                st.success('''
+                    Significant! 
+                    You can be {:.0%} confident that the difference is not a result of random chance - the observed frequencies seem not to be independent.
+                '''.format(float(conf_level)))
+            else:
+                st.info('''
+                    Not Significant. 
+                    There is no significant difference across two groups - the observed frequencies seem to be independent.
+                ''')
+
+            col1, col2 = st.beta_columns([2, 1])
+            
+            with col1: 
+                st.pyplot(fig)
+
+            st.markdown('''
+                |                 	    | Group A 	| Group B 	|Difference |
+                |-----------------	    |---------	|---------	|---------	|
+                | Converted       	    | {:.0f}  	| {:.0f}  	| {:.0f}  	|
+                | Non-converted         | {:.0f}  	| {:.0f} 	| {:.0f}  	|
+                | chi-squred            |         	|        	| {:.4f}  	|
+                | p-value         	    |         	|        	| {:.4f}  	|
+            '''.format(visitors_1 - conversions_1, visitors_2 - conversions_2, 
+            visitors_1 - conversions_1 - conversions_2 + conversions_2, 
+            conversions_1, conversions_2, conversions_1 - conversions_2, 
+            chi2, p_value)
+            )
+
+    # Render technical notes
+    with st.beta_expander(label='References'):
         st.markdown('- [A/B Testing with Chi-Squared Test to Maximize Conversions and CTRs](https://towardsdatascience.com/a-b-testing-with-chi-squared-test-to-maximize-conversions-and-ctrs-6599271a2c31)')
 
 
@@ -371,9 +449,9 @@ def main():
     st.sidebar.image('./docs/logo.png', width=250)
     st.sidebar.write('') # Line break
     side_menu_selectbox = st.sidebar.selectbox(
-        'Type', ('Home', '2-Sample Student\'s T-Test', 'ANOVA', 'Chi-Squared Test'))
+        'Type', ('Home', '2-Sample Student\'s T-Test', 'Chi-Squared Test', 'Suggest New Features'))
     if side_menu_selectbox == 'Home':
-        home(homepage_path='./docs/homepage.md')
+        home(homepage_path='./docs/homepage.md', privacy_path='./docs/privacy_notice.md', contact_path='./docs/contact_us.md')
     elif side_menu_selectbox == '2-Sample Student\'s T-Test':
         sub_menu_selectbox = st.sidebar.selectbox(
             'Subtype', ('With raw data', 'With statistics', 'Power analysis'))
@@ -388,40 +466,40 @@ def main():
                 bernoulli_ttest_ui(tech_note_path='./docs/two_sample_ttest.md')
         elif sub_menu_selectbox == 'Power analysis': 
             ttest_power_ui()
-    elif side_menu_selectbox == 'ANOVA':
-        anova_ui()
+    elif side_menu_selectbox == 'Suggest New Features':
+        contact_us_ui(contact_path='./docs/contact_us.md')
     elif side_menu_selectbox == 'Chi-Squared Test': 
         chi_squared_ui()
 
 
-@st.cache(allow_output_mutation=True, persist=True)
-def visitor_analytics():
-    return {}
+# @st.cache(allow_output_mutation=True, persist=True)
+# def visitor_analytics():
+#     return {}
 
 
-def pwd_auth(): 
-    st.info('MOSCO is currently under development. Please enter your tokens if you are a developer. ')
-    st.header('Authentication')
-    visitor_cnt = visitor_analytics()
-    username = st.text_input('Username', value='')
-    if username == '': 
-        st.info('Please input your username. ')
-        st.stop()
-    st.markdown(f'You will login as `{username}`. ')
-    pwd = st.text_input('Trial token', type='password')
-    if pwd == 'MOSCO-2020' or pwd == 'mosco2020admin': 
-        st.success('Success. Welcome back :)')
-        visitor_cnt[username] = visitor_cnt.get(username, [])
-        visitor_cnt[username].append(str(datetime.now()))
-        if username in ['yezi-li', 'luxin-tian'] and pwd == 'mosco2020admin': 
-            st.text('Visitor analytics')
-            st.json(visitor_cnt)
-        main()
-    else: 
-        if pwd != '': 
-            st.error('Invalid trial token. Please contact the development team to request for a trial token. ')
-        else: 
-            st.stop()
+# def pwd_auth(): 
+#     st.info('MOSCO is currently under development. Please enter your tokens if you are a developer. ')
+#     st.header('Authentication')
+#     visitor_cnt = visitor_analytics()
+#     username = st.text_input('Username', value='')
+#     if username == '': 
+#         st.info('Please input your username. ')
+#         st.stop()
+#     st.markdown(f'You will login as `{username}`. ')
+#     pwd = st.text_input('Trial token', type='password')
+#     if pwd == 'MOSCO-2020' or pwd == 'mosco2020admin': 
+#         st.success('Success. Welcome back :)')
+#         visitor_cnt[username] = visitor_cnt.get(username, [])
+#         visitor_cnt[username].append(str(datetime.now()))
+#         if username in ['yezi-li', 'luxin-tian'] and pwd == 'mosco2020admin': 
+#             st.text('Visitor analytics')
+#             st.json(visitor_cnt)
+#         main()
+#     else: 
+#         if pwd != '': 
+#             st.error('Invalid trial token. Please contact the development team to request for a trial token. ')
+#         else: 
+#             st.stop()
 
 
 if __name__ == '__main__': 
