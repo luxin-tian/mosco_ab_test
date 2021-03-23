@@ -19,5 +19,5 @@ Mosco is an A/B test dashboards that provides simple tools for causal inference 
 
 ## Python Codes 
 
-To download Mosco's Python modules, pleas refer to our [GitHub repository](https://github.com/luxin-tian/mosco_ab_test). 
+To download Mosco's Python modules, please refer to our [GitHub repository](https://github.com/luxin-tian/mosco_ab_test). 
 
