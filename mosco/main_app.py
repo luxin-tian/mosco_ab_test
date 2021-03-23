@@ -39,6 +39,11 @@ def home(homepage_path, privacy_path, contact_path):
 def contact_us_ui(contact_path, if_home=False): 
     if not if_home: 
         st.write('# New Features 💡')
+        st.text_input('Send us suggestions', 'Write something...')
+        if_send = st.button('Send')
+        if if_send: 
+            st.success('Thank you:) Your suggestions have been received. ')
+            st.balloons()
     with open(contact_path, 'r', encoding='utf-8') as contact: 
         st.write(contact.read())
 
@@ -509,7 +514,7 @@ if __name__ == '__main__':
     try: 
         main()
     except: 
-        st.error('Oops! Something goes wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
+        st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
         raise
     streamlit_analytics.stop_tracking()
 
