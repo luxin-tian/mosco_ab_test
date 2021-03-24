@@ -148,9 +148,7 @@ def bernoulli_ttest_ui(tech_note_path):
                 'Conversions B: ', min_value=0, value=1696)
             hypo_type = st.radio('Hypothesis type: ', ('One-sided', 'Two-sided'))
     
-    # Assert visitors>=conversions
-    if_apply = st.button('Confirm')
-    if if_apply or ((visitors_1 == 80000) * (visitors_2 == 80000) * (conversions_1 == 1600) * (conversions_2 == 1696)): 
+        # Assert visitors>=conversions
         try: 
             assert visitors_1 >= conversions_1 
         except: 
