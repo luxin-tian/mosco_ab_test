@@ -453,17 +453,18 @@ def main():
     '''Add control flows to organize the UI sections. '''
     st.sidebar.image('./docs/logo.png', width=250)
     st.sidebar.write('') # Line break
-    side_menu_selectbox = st.sidebar.selectbox(
-        'Type', ('Home', '2-Sample Student\'s T-Test', 'Chi-Squared Test', 'Suggest New Features'))
+    st.sidebar.header('Navigation')
+    side_menu_selectbox = st.sidebar.radio(
+        'Menu', ('Home', '2-Sample Student\'s T-Test', 'Chi-Squared Test', 'Suggest New Features'))
     if side_menu_selectbox == 'Home':
         home(homepage_path='./docs/homepage.md', privacy_path='./docs/privacy_notice.md', contact_path='./docs/contact_us.md')
     elif side_menu_selectbox == '2-Sample Student\'s T-Test':
-        sub_menu_selectbox = st.sidebar.selectbox(
-            'Subtype', ('With raw data', 'With statistics', 'Power analysis'))
+        sub_menu_selectbox = st.sidebar.radio(
+            'Data source', ('With raw data', 'With statistics', 'Power analysis'))
         if sub_menu_selectbox == 'With raw data': 
             ttest_upload_data_ui()
         elif sub_menu_selectbox == 'With statistics': 
-            sub_sub_menu_select_box = st.sidebar.selectbox(
+            sub_sub_menu_select_box = st.sidebar.radio(
                 'Options', ('Continuous variable', 'Binary variable'))
             if sub_sub_menu_select_box == 'Continuous variable': 
                 continuous_ttest_from_stats_ui()
