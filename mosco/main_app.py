@@ -19,7 +19,6 @@ import streamlit_analytics
 
 def home(homepage_path, privacy_path, contact_path):
     '''The home page. '''
-    st.error('''We STAND AGAINST any abuse of data science with the purpose of racial/sexual discrimination. [Read more about the humanity side](https://news.cornell.edu/stories/2019/02/social-scientists-take-data-driven-discrimination)''')
     with open(homepage_path, 'r', encoding='utf-8') as homepage: 
         homepage = homepage.read().split('---Insert video---')
         st.markdown(homepage[0], unsafe_allow_html=True)
