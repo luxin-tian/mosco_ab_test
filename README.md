@@ -4,6 +4,7 @@
 
 ## Media Coverage 
 
+= [Streamlit - Gallery](https://streamlit.io/gallery?type=apps&category=finance-business)
 - [Streamlit - Weekly Roundup: Streamlit & Firestore, multi-page apps, sketched number predictions and more!](https://discuss.streamlit.io/t/weekly-roundup-streamlit-firestore-multi-page-apps-sketched-number-predictions-and-more/9474)
 
 ## Development Team
