@@ -9,5 +9,5 @@
 
 ## Development Team
 
-- Li, Yezi, the Chinese University of Hong Kong, Shenzhen. 
-- Tian, Luxin, the University of Chicago. 
+- Luxin Tian, the University of Chicago. 
+- Yezi Li, the Chinese University of Hong Kong, Shenzhen. 
