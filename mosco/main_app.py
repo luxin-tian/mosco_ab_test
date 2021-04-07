@@ -432,11 +432,11 @@ def chi_squared_ui():
                 |                 	    | Group A 	| Group B 	|Difference |
                 |-----------------	    |---------	|---------	|---------	|
                 | Non-converted    	    | {:.0f}  	| {:.0f}  	| {:.0f}  	|
-                | Converted         | {:.0f}  	| {:.0f} 	| {:.0f}  	|
+                | Converted             | {:.0f}  	| {:.0f} 	| {:.0f}  	|
                 | chi-squred            |         	|        	| {:.4f}  	|
                 | p-value         	    |         	|        	| {:.4f}  	|
             '''.format(visitors_1 - conversions_1, visitors_2 - conversions_2, 
-            visitors_1 - conversions_1 - conversions_2 + conversions_2, 
+            visitors_1 - conversions_1 - visitors_2 + conversions_2, 
             conversions_1, conversions_2, conversions_1 - conversions_2, 
             chi2, p_value)
             )
