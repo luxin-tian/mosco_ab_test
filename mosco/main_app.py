@@ -506,10 +506,8 @@ def main():
 
 
 if __name__ == '__main__': 
-    st.write(st.secrets)
     streamlit_analytics.start_tracking()
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
-    # pwd_auth()
     try: 
         main()
     except: 
