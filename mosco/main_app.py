@@ -506,6 +506,7 @@ def main():
 
 
 if __name__ == '__main__': 
+    st.write(st.secrets)
     analytics_pwd = st.secrets['analytics_pwd']
     streamlit_analytics.start_tracking(unsafe_password=analytics_pwd)
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
