@@ -506,7 +506,7 @@ def main():
 
 
 if __name__ == '__main__': 
-    streamlit_analytics.start_tracking()
+    streamlit_analytics.start_tracking(unsafe_password=st.secrets['analytics_pwd'])
     st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
     try: 
         main()
