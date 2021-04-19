@@ -507,12 +507,10 @@ def main():
 
 if __name__ == '__main__': 
     import os
-    streamlit_analytics.start_tracking(unsafe_password=os.environ['analytics_pwd'])
-    st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
-    try: 
-        main()
-    except: 
-        st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
-        raise
-    streamlit_analytics.stop_tracking()
-
+    with streamlit_analytics.track(unsafe_password=os.environ['analytics_pwd'])
+        st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
+        try: 
+            main()
+        except: 
+            st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
+            raise
