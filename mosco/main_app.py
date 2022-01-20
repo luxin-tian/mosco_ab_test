@@ -22,7 +22,7 @@ def home(homepage_path, privacy_path, contact_path):
     with open(homepage_path, 'r', encoding='utf-8') as homepage: 
         homepage = homepage.read().split('---Insert video---')
         st.markdown(homepage[0], unsafe_allow_html=True)
-        col1, col2 = st.beta_columns([1, 1])
+        col1, col2 = st.columns([1, 1])
         with col2: 
             st.video('https://www.youtube.com/watch?v=zFMgpxG-chM')
         with col1: 
@@ -131,7 +131,7 @@ def bernoulli_ttest_ui(tech_note_path):
 
     # Render input widgets
     with st.beta_container():
-        col1, col2 = st.beta_columns([1, 1])
+        col1, col2 = st.columns([1, 1])
         with col1:  
             st.subheader('Group A')
             visitors_1 = st.number_input(
@@ -212,7 +212,7 @@ def continuous_ttest_from_stats_ui():
 
     # Render input boxes and plots
     with st.beta_container():
-        col1, col2 = st.beta_columns([1, 1])
+        col1, col2 = st.columns([1, 1])
         with col1:  
             st.subheader('Group A')
             visitors_1 = st.number_input('Sample size A: ', value=80000)
@@ -288,13 +288,13 @@ def ttest_upload_data_ui():
             df_columns_types = [ind + ' (' + val.name + ')' for ind, val in df.dtypes.iteritems()]
             df_columns_dict = {(ind + ' (' + val.name + ')'): ind for ind, val in df.dtypes.iteritems()}
             var_group_label = df_columns_dict[st.selectbox('Group label', df_columns_types)]
-            col1, col2 = st.beta_columns(2) 
+            col1, col2 = st.columns(2) 
             with col1:
                 var_group_name_1 = st.selectbox('Group name A', df[var_group_label].unique())
             with col2:
                 var_group_name_2 = st.selectbox('Group name B', df[var_group_label].unique())
             var_outcome = [df_columns_dict[var] for var in st.multiselect('Outcome variable: ', df_columns_types)]
-            col1, col2 = st.beta_columns([1, 1])
+            col1, col2 = st.columns([1, 1])
             with col1: 
                 conf_level = st.select_slider('Confidence level: ', ('0.90', '0.95', '0.99'))
             with col2: 
@@ -303,7 +303,7 @@ def ttest_upload_data_ui():
             if_remove_outliers = st.checkbox('Remove outliers', value=False)
             if if_remove_outliers: 
                 outlier_lower_qtl, outlier_upper_qtl = st.slider('Quantiles (observations falling into the tails will be removed): ', min_value=0.0, max_value=1.0, step=0.01, value=(0.0, 0.95))
-                # col1, col2 = st.beta_columns(2) 
+                # col1, col2 = st.columns(2) 
                 # with col1: 
                 #     outlier_lower_qtl = st.slider('Lower quantile: ', min_value=0.0, max_value=0.25, step=0.01, value=0.0)
                 # with col2: 
@@ -359,7 +359,7 @@ def ttest_upload_data_ui():
                             fig_3, ax = plt.subplots()
                             ax = sns.boxplot(data=df, y=var, hue=var_group_label)
                             st.pyplot(fig_1)
-                            col1, col2 = st.beta_columns([1, 1.1])
+                            col1, col2 = st.columns([1, 1.1])
                             with col1: 
                                 st.pyplot(fig_2)
                             with col2: 
@@ -377,7 +377,7 @@ def chi_squared_ui():
 
     # Render input widgets
     with st.beta_container():
-        col1, col2 = st.beta_columns([1, 1])
+        col1, col2 = st.columns([1, 1])
         with col1:  
             st.subheader('Group A')
             visitors_1 = st.number_input(
@@ -423,7 +423,7 @@ def chi_squared_ui():
                     There is no significant difference across two groups - the observed frequencies seem to be independent.
                 ''')
 
-            col1, col2 = st.beta_columns([2, 1])
+            col1, col2 = st.columns([2, 1])
             
             with col1: 
                 st.pyplot(fig)
