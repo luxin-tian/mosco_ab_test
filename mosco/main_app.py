@@ -30,7 +30,7 @@ def home(homepage_path, privacy_path, contact_path):
             st.text('Image source: Optimizely')
         st.markdown(homepage[1], unsafe_allow_html=True)
     contact_us_ui(contact_path, if_home=True)
-    with st.beta_expander(label='Privacy Notice'): 
+    with st.expander(label='Privacy Notice'): 
         with open(privacy_path, 'r', encoding='utf-8') as privacy: 
             st.markdown(privacy.read())
 
@@ -86,7 +86,7 @@ def ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_d
     fig.add_vline(x=tstat, line_dash='dash', annotation_text='t-statistic: {:.4f}<br>p-value: {:.4f}'.format(tstat, p_value), annotation_align='left', line_width=1, row=2, col=1)
 
     # Render test results
-    with st.beta_container(): 
+    with st.container(): 
 
         if hypo_type == 'Two-sided':
             p_threshold = (1 - float(conf_level)) / 2
@@ -124,13 +124,13 @@ def bernoulli_ttest_ui(tech_note_path):
     '''The Two-sample Student's t-test - Bernoulli variables section. '''
 
     # Render the header. 
-    with st.beta_container():
+    with st.container():
         st.title('Two-sample Student\'s t-test')
         st.header('Bernoulli variables')
         st.info('If the outcome variable is binary, for example, if you are testing for Click-through Rates (CTR) or customer retention rates, we suggest using a Chi-squared test. ')
 
     # Render input widgets
-    with st.beta_container():
+    with st.container():
         col1, col2 = st.columns([1, 1])
         with col1:  
             st.subheader('Group A')
@@ -164,7 +164,7 @@ def bernoulli_ttest_ui(tech_note_path):
         ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power)
 
     # Render technical notes
-    with st.beta_expander(label='Technical notes'):
+    with st.expander(label='Technical notes'):
         with open(tech_note_path, 'r') as tech_note:
             st.markdown(tech_note.read())
 
@@ -173,12 +173,12 @@ def ttest_power_ui():
     '''The Power Analysis for Two-sample Student's t-test section. '''
 
     # Render the header. 
-    with st.beta_container():
+    with st.container():
         st.title('Two-sample Student\'s t-test')
         st.header('Power analysis')
 
     # Render input boxes and plots
-    with st.beta_container():
+    with st.container():
         param_list = ['Standardized effect size', 'alpha (1 - Significance level)', 'Power (1 - beta)', 'Group A sample size']
         param_name = {'Standardized effect size': 'effect_size', 'alpha (1 - Significance level)': 'alpha', 'Power (1 - beta)': 'power', 'Group A sample size': 'n1'}
         param_default = { 
@@ -206,12 +206,12 @@ def continuous_ttest_from_stats_ui():
     '''The Two-sample Student's t-test - Continuous variables (from statistics) section. '''
     
     # Render the header. 
-    with st.beta_container():
+    with st.container():
         st.title('Two-sample Student\'s t-test')
         st.header('Continuous variables')
 
     # Render input boxes and plots
-    with st.beta_container():
+    with st.container():
         col1, col2 = st.columns([1, 1])
         with col1:  
             st.subheader('Group A')
@@ -235,7 +235,7 @@ def continuous_ttest_from_stats_ui():
     ttest_plot(mu_1, mu_2, sigma_1, sigma_2, conf_level, tstat, p_value, tstat_denom, hypo_type, observed_power)
 
     # # Render technical notes
-    # with st.beta_expander(label='Technical notes'):
+    # with st.expander(label='Technical notes'):
     #     with open(tech_note_path, 'r') as tech_note:
     #         st.markdown(tech_note.read())
 
@@ -258,12 +258,12 @@ def ttest_upload_data_ui():
     '''The Two-sample Student's t-test - Continuous variables (upload data) section. '''
     
     # Render the header. 
-    with st.beta_container(): 
+    with st.container(): 
         st.title('Two-sample Student\'s t-test')
         st.header('Continuous variables')
     
     # Render file dropbox
-    with st.beta_expander('Upload data', expanded=True): 
+    with st.expander('Upload data', expanded=True): 
         how_to_load = st.selectbox('How to access raw data? ', ('Upload', 'URL', 'Sample data'))
         if how_to_load == 'Upload': 
             uploaded_file = st.file_uploader("Choose a CSV file", type='.csv')
@@ -278,13 +278,13 @@ def ttest_upload_data_ui():
                 df = _load_data(uploaded_file)
     
     if uploaded_file is not None: 
-        with st.beta_expander('Data preview', expanded=True): 
+        with st.expander('Data preview', expanded=True): 
             with st.spinner('Loading data...'): 
                 st.dataframe(df)
                 st.write('`{}` rows, `{}` columns'.format(df.shape[0],df.shape[1]))
     
     if uploaded_file is not None: 
-        with st.beta_expander('Configurations', expanded=True): 
+        with st.expander('Configurations', expanded=True): 
             df_columns_types = [ind + ' (' + val.name + ')' for ind, val in df.dtypes.iteritems()]
             df_columns_dict = {(ind + ' (' + val.name + ')'): ind for ind, val in df.dtypes.iteritems()}
             var_group_label = df_columns_dict[st.selectbox('Group label', df_columns_types)]
@@ -321,7 +321,7 @@ def ttest_upload_data_ui():
             for col in var_outcome: 
                 df = _process_data(df=df, col=col, if_dropna=if_dropna, if_remove_outliers=if_remove_outliers, outlier_lower_qtl=outlier_lower_qtl, outlier_upper_qtl=outlier_upper_qtl)
             # Render hypothesis testing
-            with st.beta_expander('Hypothesis testing', expanded=True): 
+            with st.expander('Hypothesis testing', expanded=True): 
                 with st.spinner('Calculating...'): 
                     df_group_1 = df[df[var_group_label] == var_group_name_1]
                     df_group_2 = df[df[var_group_label] == var_group_name_2]
@@ -343,7 +343,7 @@ def ttest_upload_data_ui():
 
             # Render descriptive statistics
             if if_data_description: 
-                with st.beta_expander('Data descriptions', expanded=True): 
+                with st.expander('Data descriptions', expanded=True): 
                     with st.spinner('Processing data...'): 
                         # if if_factorize:  
                         #     df[var_hot_encoding] = df[var_hot_encoding].astype('category')
@@ -371,12 +371,12 @@ def chi_squared_ui():
     '''The Two-sample Chi-squred test. '''
     
     # Render the header. 
-    with st.beta_container(): 
+    with st.container(): 
         st.title('Chi-Squared Test')
         st.info('This section is under development and is pre-released for test. ')
 
     # Render input widgets
-    with st.beta_container():
+    with st.container():
         col1, col2 = st.columns([1, 1])
         with col1:  
             st.subheader('Group A')
@@ -405,7 +405,7 @@ def chi_squared_ui():
         chi2, p_value, expected, observed, fig = scipy_chi2_from_stats(visitors_1, visitors_2, conversions_1, conversions_2)
 
         # Render the results 
-        with st.beta_container(): 
+        with st.container(): 
             if hypo_type == 'Two-sided':
                 p_threshold = (1 - float(conf_level)) / 2
             else:
@@ -442,7 +442,7 @@ def chi_squared_ui():
             )
 
     # Render technical notes
-    with st.beta_expander(label='References'):
+    with st.expander(label='References'):
         st.markdown('- [A/B Testing with Chi-Squared Test to Maximize Conversions and CTRs](https://towardsdatascience.com/a-b-testing-with-chi-squared-test-to-maximize-conversions-and-ctrs-6599271a2c31)')
 
 
