@@ -15,7 +15,7 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 # Import the hypothesis_testing.py module
 from hypothesis_testing import *
-import streamlit_analytics
+# import streamlit_analytics
 
 def home(homepage_path, privacy_path, contact_path):
     '''The home page. '''
@@ -507,10 +507,10 @@ def main():
 
 if __name__ == '__main__': 
     import os
-    with streamlit_analytics.track(unsafe_password=os.environ['analytics_pwd']): 
-        st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
-        try: 
-            main()
-        except: 
-            st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
-            raise
+    # with streamlit_analytics.track(unsafe_password=os.environ['analytics_pwd']): 
+    st.set_page_config(page_title='MOSCO - A/B Test Toolkits', page_icon='./docs/icon.png', layout='centered', initial_sidebar_state='auto')
+    try: 
+        main()
+    except: 
+        st.error('Oops! Something went wrong...Please check your input.\nIf you think there is a bug, please open up an [issue](https://github.com/luxin-tian/mosco_ab_test/issues) and help us improve. ')
+        raise
